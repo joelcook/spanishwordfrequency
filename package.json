@@ -1,0 +1,23 @@
+{
+  "name": "spanishwordfrequency",
+  "version": "1.0.0",
+  "description": "Fabulaudit's Spanish comprehensible input full course",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joelcook/spanishwordfrequency.git"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "author": "Joel Cook",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joelcook/spanishwordfrequency/issues"
+  },
+  "homepage": "https://github.com/joelcook/spanishwordfrequency#readme"
+}

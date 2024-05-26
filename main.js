@@ -2,61 +2,42 @@ let map = new Map();
 
 async function getWords() {
     for (let i = 1; i < 46; i++) {
-        const response = await (await fetch(`stories/${i}.txt`)).text();
+        try {
+            const response = await fetch(`stories/${i}.txt`);
+            const text = await response.text();
 
-        const words = response.toLowerCase()
-            .split(' ')
-            .join('$')
-            .split(',')
-            .join('$')
-            .split('!')
-            .join('$')
-            .split('?')
-            .join('$')
-            .split('¡')
-            .join('$')
-            .split('“')
-            .join('$')
-            .split('”')
-            .join('$')
-            .split('.')
-            .join('$')
-            .split(/\r\n/)
-            .join('$')
-            .split(':')
-            .join('$')
-            .split(';')
-            .join('$')
-            .split('"')
-            .join('$')
-            .split('$')
-            .filter((str) => str !== '');
+            const words = text.toLowerCase()
+                .split(/[^a-záéíóúüñ]+/i)
+                .filter((str) => str !== '');
 
-        for (let i = 0; i < words.length; i++) {
-            map.set(words[i], map.get(words[i]) + 1 || 1);
+            for (const word of words) {
+                map.set(word, (map.get(word) || 0) + 1);
+            }
+        } catch (error) {
+            console.error(`Failed to fetch stories/${i}.txt: `, error);
         }
     }
 }
 
 function updateTable() {
     const tbody = document.querySelector('tbody');
-    let tData = '';
-    index = 0;
-    tData = Array.from(map.entries()).map(([key, value]) => {
+    let index = 0;
+    const tData = Array.from(map.entries()).map(([key, value]) => {
         index++;
         return `<tr>
-        <td>${index}</td>
-        <td>${key}</td>
-        <td>${value}</td>
-        </tr>`
+            <td>${index}</td>
+            <td>${key}</td>
+            <td>${value}</td>
+        </tr>`;
     }).join('');
 
     tbody.innerHTML = tData;
 }
 
-getWords();
-setTimeout(() => {
+async function init() {
+    await getWords();
     map = new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
     updateTable();
-}, 100);
+}
 
+init();
