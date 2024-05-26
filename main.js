@@ -34,10 +34,32 @@ function updateTable() {
     tbody.innerHTML = tData;
 }
 
+// Uncomment if you want to edit the code and save a new word frequency file
+// async function sendDataToServer(data) {
+//     try {
+//         const response = await fetch('/save-words', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(data)
+//         });
+//         if (response.ok) {
+//             console.log('Data successfully sent to the server');
+//         } else {
+//             console.error('Failed to send data to the server');
+//         }
+//     } catch (error) {
+//         console.error('Error:', error);
+//     }
+// }
+
 async function init() {
     await getWords();
     map = new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
     updateTable();
+    // Uncomment if you want to edit the code and save a new word frequency file
+    // sendDataToServer(Object.fromEntries(map));
 }
 
 init();
